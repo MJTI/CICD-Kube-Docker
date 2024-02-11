@@ -70,7 +70,7 @@ pipeline {
         stage("Upload Docker Image") {
             steps {
                 script {
-                    docker.withRegistry(dockerCreds) {
+                    docker.withRegistry('', dockerCreds) {
                         dockerimg.push("$BUILD_NUMBER")
                         dockerimg.push("latest")
                     }
