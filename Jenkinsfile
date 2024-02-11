@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "mjth/vproapp:V"
+        registry = "mjth/vproapp"
         dockerCreds = "Dockerhub"
     }
 
@@ -62,7 +62,7 @@ pipeline {
         stage("Build Docker Image") {
             steps {
 	    	    script {
-                    dockerimg = docker.build registry + "$BUILD_NUMBER"
+                    dockerimg = docker.build registry + "v$BUILD_NUMBER"
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', dockerCreds) {
-                        dockerimg.push("$BUILD_NUMBER")
+                        dockerimg.push("v$BUILD_NUMBER")
                         dockerimg.push("latest")
                     }
                 }
