@@ -80,7 +80,7 @@ pipeline {
 
         stage("Remove docker images") {
             steps {
-                sh "docker rmi " + $registry + ":v$BUILD_NUMBER " + $registry + ":latest"
+                sh "docker rmi " + registry + ":v$BUILD_NUMBER " + registry + ":latest"
             }
         }   
     }
