@@ -62,12 +62,17 @@ pipeline {
         stage("Build Docker Image") {
             steps {
 	    	    script {
-                    docker.withRegistry(credentialId: "Dockerhub") { // Replace with your ID
-                    def newApp = docker.build(
-                        registry: "${registry}${BUILD_NUMBER}", // Include BUILD_NUMBER in tag
-                        context: "." // Build from current directory (Jenkinsfile location)
-                    )
-                    newApp.build()
+                    dockerimg = docker.build registry + "$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage("Upload Docker Image") {
+            steps {
+                script {
+                    docker.withRegistry(dockerCreds) {
+                        dockerimg.push("$BUILD_NUMBER")
+                        dockerimg.push("latest")
                     }
                 }
             }
