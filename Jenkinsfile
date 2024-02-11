@@ -82,6 +82,13 @@ pipeline {
             steps {
                 sh "docker rmi " + registry + ":v$BUILD_NUMBER " + registry + ":latest"
             }
+        }
+
+        stage("Upload to Kubernetes") {
+            steps {
+                agent {label 'KOPS'}
+                sh "sudo helm upgrade --install vprofile-stack helm/vprofilecharts --set appimg=" + registry + ":v$BUILD_NUMBER"
+            }
         }   
     }
 }
