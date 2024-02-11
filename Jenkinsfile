@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         registry = "mjth/vproapp:V"
-        dockerCreds = "dockerhub"
+        dockerCreds = "Dockerhub"
     }
 
     tools {
