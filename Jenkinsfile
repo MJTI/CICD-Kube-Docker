@@ -61,8 +61,10 @@ pipeline {
 
         stage("Build Docker Image") {
             steps {
-                def newApp = docker.build registry + ":V${BUILD_NUMBER}"
-                newApp.build();
+	    	script {
+			def newApp = docker.build registry + ":V${BUILD_NUMBER}"
+			newApp.build();
+		}
             }
         }
 
