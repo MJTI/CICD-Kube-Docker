@@ -61,13 +61,16 @@ pipeline {
 
         stage("Build Docker Image") {
             steps {
-	    	script {
-			def newApp = docker.build registry + ":V${BUILD_NUMBER}"
-			newApp.build();
-		}
+	    	    script {
+                    docker.withRegistry(credentialId: "Dockerhub") { // Replace with your ID
+                    def newApp = docker.build(
+                        registry: "${registry}${BUILD_NUMBER}", // Include BUILD_NUMBER in tag
+                        context: "." // Build from current directory (Jenkinsfile location)
+                    )
+                    newApp.build()
+                    }
+                }
             }
-        }
-
-
+        }   
     }
 }
